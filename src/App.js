@@ -1,14 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as THREE from 'three';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Button from 'react-bootstrap/Button';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 
-  const url = "spaceship.stl";
+  const urls = ["spaceship.stl", "3D.stl", "3d-model.stl"]; // Array of model URLs
   const containerRef = useRef();
+  const [color, setColor] = useState(0xFF0000); // Initial color
+  const [modelIndex, setModelIndex] = useState(0);
 
   useEffect(() => {
     // Create a scene
@@ -25,9 +29,9 @@ function App() {
 
     // Load the STL file
     const loader = new STLLoader();
-    loader.load(url, (geometry) => {
+    loader.load(urls[modelIndex], (geometry) => {
       // Create a wireframe material
-      const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000, wireframe: true });
+      const wireframeMaterial = new THREE.MeshBasicMaterial({ color: color, wireframe: true });
 
       // Create a mesh with wireframe material
       const wireframeMesh = new THREE.Mesh(geometry, wireframeMaterial);
@@ -69,12 +73,26 @@ function App() {
       containerRef.current.removeChild(renderer.domElement);
     };
 
-  }, []);
+  }, [color, modelIndex]);
+
+  const changeColor = () => {
+    // Change the color to a random color
+    const newColor = Math.floor(Math.random()*16777215); // 16777215 is 0xFFFFFF in decimal
+    setColor(newColor);
+  };
+
+  const changeModel = () => {
+    // Change the model to the next one in the array
+    const newIndex = (modelIndex + 1) % urls.length;
+    setModelIndex(newIndex);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Button className='App-button' variant="primary" onClick={changeColor}>Change Color</Button>
+        <Button className='App-button' onClick={changeModel}>Change Model</Button>
       </header>
       <main className='App-main'>
         <div ref={containerRef} id="App-3D-viewer"></div>

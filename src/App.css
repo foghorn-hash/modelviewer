@@ -23,6 +23,10 @@
   color: white;
 }
 
+.App-button {
+  margin-right: 20px;
+}
+
 .App-main {
   background-color: #831414;
   display: block;
