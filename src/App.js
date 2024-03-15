@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as THREE from 'three';
-import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 function App() {
@@ -40,8 +40,8 @@ function App() {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableRotate = true;
 
-    // Update the camera aspect ratio when the window is resized
-    window.addEventListener('resize', () => {
+    // Define resize function
+    const onWindowResize = () => {
       const newWidth = window.innerWidth;
       const newHeight = window.innerHeight;
 
@@ -49,16 +49,26 @@ function App() {
       camera.updateProjectionMatrix();
 
       renderer.setSize(newWidth, newHeight);
-    });
+    };
 
-    // Render function (no animation)
+    // Add resize event listener
+    window.addEventListener('resize', onWindowResize)
+
+    // Render function (with animation)
     const render = () => {
-      renderer.render(scene, camera);
       requestAnimationFrame(render);
+      renderer.render(scene, camera);
     };
 
     // Call the render function
     render();
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+      containerRef.current.removeChild(renderer.domElement);
+    };
+
   }, []);
 
   return (
@@ -70,6 +80,7 @@ function App() {
         <div ref={containerRef} id="App-3D-viewer"></div>
       </main>
       <footer className='App-footer'>
+        <p>3D Model Viewer</p>
       </footer>
     </div>
   );

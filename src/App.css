@@ -14,14 +14,42 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #831414;
   height: 100px;
-  display: flex;
-  flex-direction: column;
+  display: block;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-main {
+  background-color: #831414;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  height: 870px;
+}
+
+.App-3D-viewer {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+.App-footer {
+  background-color: #831414;
+  height: 80px;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+p {
+  margin: 20px;
+  padding: 20px;
 }
 
 @keyframes App-logo-spin {
