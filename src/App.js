@@ -46,8 +46,12 @@ function App() {
 
     // Define resize function
     const onWindowResize = () => {
-      const newWidth = window.innerWidth;
-      const newHeight = window.innerHeight;
+      const div = document.querySelector('.App-3D-viewer'); // replace 'your-class-name' with your actual class name
+      if (!div) return;
+
+      const rect = div.getBoundingClientRect();
+      const newWidth = rect.width;
+      const newHeight = rect.height;
 
       camera.aspect = newWidth / newHeight;
       camera.updateProjectionMatrix();
@@ -95,7 +99,7 @@ function App() {
         <Button className='App-button' onClick={changeModel}>Change Model</Button>
       </header>
       <main className='App-main'>
-        <div ref={containerRef} id="App-3D-viewer"></div>
+        <div ref={containerRef} id="App-3D-viewer" className='App-3D-viewer'></div>
       </main>
       <footer className='App-footer'>
         <p>3D Model Viewer</p>
